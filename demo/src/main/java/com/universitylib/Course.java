@@ -49,7 +49,6 @@ public class Course {
             }
         }
         return false;
-
     }
 
     public boolean getWaitlistCapacity(int code){
