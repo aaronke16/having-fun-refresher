@@ -1,4 +1,4 @@
-package University;
+package com.universitylib;
 
 public class Student {
     private int credits;
@@ -47,8 +47,8 @@ public class Student {
         return false;
     }
 
-    public boolean addToWaitlist(Course course){
-        return course.addToWaitlist(this);
+    public boolean addToWaitlist(Course course, int courseId){
+        return course.addToWaitlist(this, courseId);
     }
 
 }

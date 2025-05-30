@@ -1,6 +1,6 @@
-package University;
+package com.universitylib;
 
-public class Main {
+public class App {
     public static void main(String[] args) {
         Course course = new Course(0, 3);
         Student student = new Student(10, 3.2, 10);
@@ -19,6 +19,17 @@ public class Main {
         student2.dropStudent(course);        
 
         course.viewCourseEnrollment(code);
+
+        course.getWaitlist(code);
+
+        course.addToWaitlist(student, code);
+
+        course.getWaitlist(code);
+
+        course.removeFromWaitlist(student);
+
+        course.getWaitlist(code);
+
 
     }
 }
