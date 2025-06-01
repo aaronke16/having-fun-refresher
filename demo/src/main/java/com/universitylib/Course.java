@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class CourseActions {
+public class Course {
     private int code;
     private int capacity = 5;
     private int credits;
-    private HashMap<Integer, ArrayList<StudentActions>> ClassList;
-    private HashMap<Integer, Queue<StudentActions>> Waitlist;
+    private HashMap<Integer, ArrayList<Student>> ClassList;
+    private HashMap<Integer, Queue<Student>> Waitlist;
     private int waitlistCapacity = 5;
 
-    public CourseActions(int code, int credits){
+    public Course(int code, int credits){
         this.code = code;
         this.credits = credits;
         this.ClassList = new HashMap<>();
@@ -38,12 +38,12 @@ public class CourseActions {
 
     public boolean getWaitlist(int code){
         if(isWaitlist(code)){
-            Queue<StudentActions> waitListOfStudents = Waitlist.get(code);
+            Queue<Student> waitListOfStudents = Waitlist.get(code);
             if(waitListOfStudents.size() < 1){
                 System.out.println("Waitlist is empty");
                 return false;
             }
-            for(StudentActions student: waitListOfStudents){
+            for(Student student: waitListOfStudents){
                 System.out.println(student);
                 return true;
             }
@@ -69,8 +69,8 @@ public class CourseActions {
     }
 
     public boolean addCourse(int code){
-        ArrayList<StudentActions> studentList = new ArrayList<>();
-        Queue<StudentActions> waitList = new LinkedList<>();
+        ArrayList<Student> studentList = new ArrayList<>();
+        Queue<Student> waitList = new LinkedList<>();
         if(!courseExists(code)){
             ClassList.put(code, studentList);
             Waitlist.put(code, waitList);
@@ -81,11 +81,11 @@ public class CourseActions {
         return false;
     }
 
-    public boolean addToCourse(StudentActions student, int code){
+    public boolean addToCourse(Student student, int code){
         if(courseExists(code)){
             int runningCapacity = ClassList.get(code).size();
             if(runningCapacity < capacity){
-                ArrayList<StudentActions> currList = ClassList.get(code);
+                ArrayList<Student> currList = ClassList.get(code);
                 currList.add(student);
                 ClassList.put(code, currList);
                 return true;
@@ -99,14 +99,14 @@ public class CourseActions {
         return false;
     }
 
-    public boolean removeFromCourse(StudentActions student, int code){
+    public boolean removeFromCourse(Student student, int code){
         if(courseExists(code)){
-            ArrayList<StudentActions> listOfStudentsInCouse = ClassList.get(code);
+            ArrayList<Student> listOfStudentsInCouse = ClassList.get(code);
             if(listOfStudentsInCouse.contains(student)){
                 listOfStudentsInCouse.remove(student);
                 return true;
             }else{
-                System.out.println("StudentActions could not be found in course!");
+                System.out.println("Student could not be found in course!");
                 return false;
             }
         }
@@ -114,9 +114,9 @@ public class CourseActions {
         return false;
     }
 
-    public boolean addToWaitlist(StudentActions student, int code){
+    public boolean addToWaitlist(Student student, int code){
         if(getWaitlistCapacity(code)){
-            Queue<StudentActions> waitlistOfStudents= Waitlist.get(code);
+            Queue<Student> waitlistOfStudents= Waitlist.get(code);
             waitlistOfStudents.add(student);
             Waitlist.put(code, waitlistOfStudents);
             System.out.println(student + " has been added to the waitlist");
@@ -126,15 +126,15 @@ public class CourseActions {
         return false;
     }
 
-    public boolean removeFromWaitlist(StudentActions student){
+    public boolean removeFromWaitlist(Student student){
         if(getWaitlistCapacity(code)){
-            Queue<StudentActions> waitlistOfStudents = Waitlist.get(code);
+            Queue<Student> waitlistOfStudents = Waitlist.get(code);
             waitlistOfStudents.remove(student);
             Waitlist.put(code, waitlistOfStudents);
             System.out.println(student + " removed from waitlist");
             return true;
         }
-        System.out.println("StudentActions not on waitlist");
+        System.out.println("Student not on waitlist");
         return false;
     }
 
