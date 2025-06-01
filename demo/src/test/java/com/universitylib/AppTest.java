@@ -17,26 +17,26 @@ public class AppTest {
      */
     @Test
     public void addingCourseTest() {
-        CourseActions course = CouseScenarios.addingCourse();
+        Course course = CouseScenarios.addingCourse();
         assertEquals(1, course.getCode());
     }
 
     @Test
     public void addingCourseToWaitlistTest() {
-        CourseActions course = CouseScenarios.addingCourseToWaitlist();
+        Course course = CouseScenarios.addingCourseToWaitlist();
         assertEquals(10, course.getCode());
     }
 
     @Test
     public void gettingWaitlistCapacityTest() {
-        CourseActions course = CouseScenarios.gettingWaitlistCapacity();
+        Course course = CouseScenarios.gettingWaitlistCapacity();
         assertFalse(course.getWaitlist(course.getCode()));
     }
 
 
     @Test
     public void addingCourseToWaitlist() {
-        CourseActions course = CouseScenarios.addingCourseToWaitlist();
+        Course course = CouseScenarios.addingCourseToWaitlist();
         assertEquals(10, course.getCode());
     }
 
