@@ -30,7 +30,7 @@ public class dbConnect {
     public void createPersonTable(Connection conn, String table_name){
         Statement statement;
         try {
-            String query = "create table " + table_name + "(id SERIAL, name varchar(200), address varchar(200), primary key (id));";
+            String query = "create table person (id SERIAL, name varchar(200), address varchar(200), primary key (id));";
             statement = conn.createStatement();
             statement.executeUpdate(query);
             System.out.println("Table Created");
@@ -42,7 +42,31 @@ public class dbConnect {
     public void createCourseTable(Connection conn, String table_name){
         Statement statement;
         try {
-            String query = "create table " + table_name + "(id SERIAL, name varchar(200), address varchar(200), primary key (id));";
+            String query = "create table course(course_id SERIAL, student_id name varchar(200), primary key (id));";
+            statement = conn.createStatement();
+            statement.executeUpdate(query);
+            System.out.println("Table Created");
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void createEnrollmentsTable(Connection conn, String table_name){
+        Statement statement;
+        try {
+            String query = "create table enrollments(course_id REFERENCES course(id), student_id REFERENCES students(id), primary key (student_id, course_id);";
+            statement = conn.createStatement();
+            statement.executeUpdate(query);
+            System.out.println("Table Created");
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void addEnrollments(Connection conn, String table_name, int course_id, int student_id){
+        Statement statement;
+        try {
+            String query = String.format("insert into enrollments(course_id REFERENCES course(id), student_id REFERENCES students(id), primary key (student_id, course_id) values(%s, %s);", student_id, course_id);
             statement = conn.createStatement();
             statement.executeUpdate(query);
             System.out.println("Table Created");
@@ -126,10 +150,10 @@ public class dbConnect {
         }
     }
 
-    public void delete_row_by_combination(Connection conn, String table_name, String name, int id){
+    public void delete_row_by_combination(Connection conn, String table_name, int course_id, int student_id){
         Statement statement;
         try {
-            String query = String.format("delete from %s where name = '%s' and id = %s", table_name, name, id);
+            String query = String.format("delete from %s where course_id = %s and id = %s", table_name, course_id, student_id);
             statement = conn.createStatement();
             statement.executeUpdate(query);
             System.out.println("Information deleted");
