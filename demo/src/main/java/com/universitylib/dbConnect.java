@@ -22,6 +22,7 @@ public class dbConnect {
                 System.out.println("Connected to: " + rs.getString(1));
             }
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println(e);
         }
         return conn;
@@ -39,37 +40,65 @@ public class dbConnect {
         }
     }
 
-    public void createCourseTable(Connection conn, String table_name){
+    public void createCourseTable(Connection conn){
         Statement statement;
         try {
-            String query = "create table course(course_id SERIAL, student_id name varchar(200), primary key (id));";
+            String query = "create table course(course_id SERIAL, student_id varchar(200), course_name, primary key (course_id));";
             statement = conn.createStatement();
             statement.executeUpdate(query);
-            System.out.println("Table Created");
+            System.out.println("Course Table Created");
         }catch (Exception e){
             System.out.println(e);
         }
     }
 
-    public void createEnrollmentsTable(Connection conn, String table_name){
+    public void createEnrollmentsTable(Connection conn){
         Statement statement;
         try {
-            String query = "create table enrollments(course_id REFERENCES course(id), student_id REFERENCES students(id), primary key (student_id, course_id);";
+            String query = "create table enrollments(course_id INTEGER REFERENCES course(course_id), student_id INTEGER REFERENCES students(id), PRIMARY KEY(student_id, course_id));";
             statement = conn.createStatement();
             statement.executeUpdate(query);
-            System.out.println("Table Created");
+            System.out.println("Enrollments Table Created");
         }catch (Exception e){
             System.out.println(e);
         }
     }
 
-    public void addEnrollments(Connection conn, String table_name, int course_id, int student_id){
+    public void addEnrollments(Connection conn, int course_id, int student_id){
         Statement statement;
         try {
-            String query = String.format("insert into enrollments(course_id REFERENCES course(id), student_id REFERENCES students(id), primary key (student_id, course_id) values(%s, %s);", student_id, course_id);
+            String query = String.format("insert into enrollments (course_id, student_id) values(%s, %s)", student_id, course_id);
             statement = conn.createStatement();
             statement.executeUpdate(query);
-            System.out.println("Table Created");
+            System.out.println(String.format("Student %d added to course %d", student_id, course_id));
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void readEnrollmentsData(Connection conn){
+        Statement statement;
+        ResultSet rs = null;
+        try {
+            String query = String.format("Select * from enrollments");
+            statement = conn.createStatement();
+            rs = statement.executeQuery(query);
+            while (rs.next()) {
+                System.out.print(rs.getString("course_id") + " ");
+                System.out.print(rs.getString("student_id"));
+            }       
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void addCourse(Connection conn, String course_name){
+        Statement statement;
+        try {
+            String query = String.format("insert into course (course_name) values ('%s');", course_name);
+            statement = conn.createStatement();
+            statement.executeUpdate(query);
+            System.out.println(String.format(course_name, " added to course"));
         }catch (Exception e){
             System.out.println(e);
         }
@@ -98,6 +127,22 @@ public class dbConnect {
                 System.out.print(rs.getString("id") + " ");
                 System.out.print(rs.getString("name") + " ");
                 System.out.println(rs.getString("Address"));
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void readCourseData(Connection conn){
+        Statement statement;
+        ResultSet rs = null;
+        try {
+            String query = String.format("select * from course");
+            statement = conn.createStatement();
+            rs = statement.executeQuery(query);
+            while (rs.next()) {
+                System.out.print(rs.getString("course_id") + " ");
+                System.out.print(rs.getString("course_name"));
             }
         }catch (Exception e){
             System.out.println(e);
